@@ -71,7 +71,6 @@ async def promptset(interaction: discord.Interaction, theprompt: str):
 
 @tree.command(name="promptrecall", description="private reminder of the current prompt of this for ongoing discussions")
 async def promptrecall(interaction: discord.Interaction):
-    conts=theprompt
     try:
         rows=db_c.execute('select contents from prompts where chan=? order by  promptid desc',(interaction.channel_id,)).fetchone()
     except:
@@ -81,7 +80,6 @@ async def promptrecall(interaction: discord.Interaction):
 
 @tree.command(name="promptshow", description="show the current prompt of this for ongoing discussions")
 async def promptshow(interaction: discord.Interaction):
-    conts=theprompt
     try:
         rows=db_c.execute('select contents from prompts where chan=? order by promptid desc',(interaction.channel_id,)).fetchone()
     except:
