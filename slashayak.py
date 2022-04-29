@@ -60,6 +60,7 @@ async def on_ready():
     tree.copy_global_to(guild=client.guilds[0])
     await tree.sync()
     print("slashayak is up!")
+    print(tree.get_commands())
     return
 
 async def durl2m(u): #needs to be redone for thread...
