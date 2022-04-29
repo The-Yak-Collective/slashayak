@@ -64,7 +64,7 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 @app_commands.describe(theprompt='text of prompt')
 async def promptset(interaction: discord.Interaction, theprompt: str):
     conts=theprompt
-    db_c.execute('''insert into prompts values (NULL,?,?,?,?,?,?,?)''',(str(message.user.id),conts,0,int(time.time()),0,interaction.channel_id,"not in use"))
+    db_c.execute('''insert into prompts values (NULL,?,?,?,?,?,?,?)''',(str(interaction.user.id),conts,0,int(time.time()),0,interaction.channel_id,"not in use"))
     conn.commit()
     await interaction.response.send_message("hope you like your prompt! \nuse /promptset again to change it, /promptshow to show it to all and /promptrecall to show it only to yourself", ephemeral=True)
     return
