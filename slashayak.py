@@ -14,6 +14,7 @@ import time
 import datetime
 from dotenv import load_dotenv
 
+import sqlite3
 import logging
 
 
@@ -24,8 +25,10 @@ USER_DIR="/home/yak/"
 
 load_dotenv(USER_DIR+'.env')
 
-@tree.command()
-@app_commands.describe(linktounfurl='the link, also from a thread, to unfurl. single link only, sorry. latter to add a whole thread, i guess')
+conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be global. 
+
+@tree.command(description= "unfurl messages in and from threads as well as regular channels. at this time only single link only, sorry. later to add a whole thread, i guess")
+@app_commands.describe(linktounfurl='the link to unfurl')
 async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
     message=interaction.message #there are actually cooler tools around interactions. for a later time...
@@ -53,8 +56,18 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
     await interaction.response.send_message("hope you got the output you wanted",ephemeral=True)
 
+@tree.command(description="set a prompt for ongoing discussions")
+@app_commands.describe(theprompt='text of prompt')
+async def promptset(interaction: discord.Interaction, theprompt: str):
+    conts=theprompt
+    db_c.execute('''insert into prompts values (NULL,?,?,?,?,?,?,?)''',(str(message.user.id),conts,0,int(time.time()),0,interaction.channel_id,"not in use"))
+    conn.commit()
+    await interaction.response.send_message("hope you like your prompt! \nuse /promptset again to change it, /promptshow to show it to all and /promptrecall to show it only to yourself", ephemeral=True)
+    return
 
-@tree.command()
+
+
+@tree.command(description="a simple echo as a test")
 @app_commands.describe(echome='text to echo')
 async def slashatest(interaction: discord.Interaction, echome: str):
     await interaction.response.send_message(f'{echome=}', ephemeral=True)
@@ -64,6 +77,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 async def on_ready(): 
     tree.copy_global_to(guild=client.guilds[0])
     await tree.sync()
+    checkon_database()
     print("slashayak is up!")
     print(tree.get_commands())
     return
@@ -76,6 +90,17 @@ async def durl2m(u): #needs to be redone for thread...
     c=client.guilds[0].get_channel_or_thread(int(url[1]))
     m=await c.fetch_message(int(url[0]))
     return m,url[1],c
+
+def checkon_database(): 
+#check if table exists in DB. if not, create it
+#this function is RIPE for automation, which would also be carried over to "on message"
+    db_c.execute('''SELECT count(name) FROM sqlite_master WHERE type='table' AND name='prompts' ''')
+    if db_c.fetchone()[0]!=1:
+        db_c.execute('''CREATE TABLE prompts (promptid INTEGER PRIMARY KEY, creatorid text, contents text, filled int, createdat int, filledat int, chan int, mlink text)''') 
+        #filled=is it active
+        #most items will not be used...
+        conn.commit()
+
 
 async def splitsend(ch,st,codeformat):
 #send data in chunks smaller than 2k
