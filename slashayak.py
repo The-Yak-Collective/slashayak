@@ -32,7 +32,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
     print("slashayak is up!")
-
+    await tree.sync()
     return
 
 
