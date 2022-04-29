@@ -29,20 +29,20 @@ load_dotenv(USER_DIR+'.env')
 async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
     message=interaction.message #there are actually cooler tools around interactions. for a later time...
-    
-    url=[None,linktounfurl] #just for backwards compatibility and prevent need to debug, for now. clean later
+    channel=interaction.channel
+    url=linktounfurl #just for backwards compatibility and prevent need to debug, for now. clean later
 
     try:
         #print(temp_l,url[1],':',durl2m(url[1]))
-        m,chan,c=await durl2m(url[1])
+        m,chan,c=await durl2m(url) #fails on threads because of "chan". but maybe just take the message id and extract channel information from that?
         #print("afterdurl")
         txt=m.content
         strig="<@"+str(m.author.id)+"> in <#"+chan+">:\n"+txt
         #print(strig)
         #await message.channel.send(strig) needs split as message could be long (2k chars. maybe better solution is simply to send two messages? tried it and it does not work. strange)
-        await splitsend(message.channel,strig,False)
+        await splitsend(channel,strig,False)
     except:
-        await message.channel.send("some bug. are you sure that is a link to a discord message?")
+        await channel.send("some bug. are you sure that is a link to a discord message?")
 
         return
 
