@@ -31,7 +31,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 
 @tree.command()
 @app_commands.describe(linktounfurl='the link, also from a thread, to unfurl. single link only, sorry. latter to add a whole thread, i guess')
-async def tfurl(interaction: discord.Interaction, thelink: str):
+async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
     message=interaction.message #there are actually cooler tools around interactions. for a later time...
     
