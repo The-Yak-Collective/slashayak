@@ -103,7 +103,7 @@ async def on_ready():
     await tree.sync()
     checkon_database()
     print("slashayak is up!")
-    print(tree.get_commands())
+    print([x.name for x in tree.get_commands()])
     return
 
 async def durl2m(u): #needs to be redone for thread...
