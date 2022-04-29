@@ -25,11 +25,6 @@ USER_DIR="/home/yak/"
 load_dotenv(USER_DIR+'.env')
 
 @tree.command()
-@app_commands.describe(echome='text to echo')
-async def slashatest(interaction: discord.Interaction, echome: str):
-    await interaction.response.send_message(f'{echome=}', ephemeral=True)
-
-@tree.command()
 @app_commands.describe(linktounfurl='the link, also from a thread, to unfurl. single link only, sorry. latter to add a whole thread, i guess')
 async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
@@ -52,6 +47,13 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
         return
 
     await interaction.response.send_message("hope you got the output you wanted",ephemeral=True)
+
+
+@tree.command()
+@app_commands.describe(echome='text to echo')
+async def slashatest(interaction: discord.Interaction, echome: str):
+    await interaction.response.send_message(f'{echome=}', ephemeral=True)
+
 
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
