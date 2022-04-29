@@ -37,7 +37,10 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
         m,chan,c=await durl2m(url) #fails on threads because of "chan". but maybe just take the message id and extract channel information from that?
         #print("afterdurl")
         txt=m.content
-        strig="<@"+str(m.author.id)+"> in <#"+chan+">:\n"+txt
+        try:
+            strig="<@"+str(m.author.id)+"> in <#"+chan+">:\n"+txt
+        except:
+            strig="<@"+str(m.author.id)+"> in "+m.channel.name+":\n"+txt
         #print(strig)
         #await message.channel.send(strig) needs split as message could be long (2k chars. maybe better solution is simply to send two messages? tried it and it does not work. strange)
         await splitsend(channel,strig,False)
