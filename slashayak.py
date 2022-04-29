@@ -27,7 +27,7 @@ load_dotenv(USER_DIR+'.env')
 
 conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be global. 
 
-@tree.command(description= "unfurl messages in and from threads as well as regular channels. at this time only single link only, sorry. later to add a whole thread, i guess")
+@tree.command(description= "unfurl single messages in and from threads as well as regular channels") # at this time only single link only, sorry. later to add a whole thread, i guess
 @app_commands.describe(linktounfurl='the link to unfurl')
 async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
