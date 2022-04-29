@@ -35,8 +35,10 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
     try:
         #print(temp_l,url[1],':',durl2m(url[1]))
         m,chan,c=await durl2m(url) #fails on threads because of "chan". but maybe just take the message id and extract channel information from that?
-        #print("afterdurl")
+        print("afterdurl")
         txt=m.content
+        print(m.channel)
+        print(m.channel.name)
         try:
             strig="<@"+str(m.author.id)+"> in <#"+chan+">:\n"+txt
         except:
@@ -71,7 +73,7 @@ async def durl2m(u): #needs to be redone for thread...
     url=u.split("/")
     url=list(reversed(url))
     print(url)
-    c=client.guilds[0].get_channel(int(url[1]))
+    c=client.guilds[0].get_channel_or_thread(int(url[1]))
     m=await c.fetch_message(int(url[0]))
     return m,url[1],c
 
