@@ -57,7 +57,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
-    tree.copy_global_to(guild=client.guilds[0].id)
+    tree.copy_global_to(guild=client.guilds[0])
     await tree.sync()
     print("slashayak is up!")
     return
