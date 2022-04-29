@@ -3,7 +3,7 @@ exec >~/robot/slashayak/logfileofpostmerge
 exec 2>&1
 set -x
 set -v
-pkill -9 slashayak.py
-#kill -9 $(ps ax | grep 'csvofyaks.py' | awk '{printf $1 " "}')
+#pkill -9 slashayak.py #does not seem to work right
+kill -9 $(ps ax | grep 'csvofyaks.py' | awk '{printf $1 " "}')
 nohup python3 ~/robot/slashayak/slashayak.py 2>&1 &
 exit
