@@ -69,6 +69,13 @@ async def promptset(interaction: discord.Interaction, theprompt: str):
     await interaction.response.send_message("hope you like your prompt! \nuse /promptset again to change it, /promptshow to show it to all and /promptrecall to show it only to yourself", ephemeral=True)
     return
 
+@tree.command(description="show the current prompt of this for ongoing discussions")
+async def promptshow(interaction: discord.Interaction):
+    conts=theprompt
+    rows=db_c.execute('select contents from prompts where chan=? order by  promptid desc',(interaction.channel_id,)).fetchone()
+
+    await interaction.response.send_message("the prompt:\n"+rows[0], ephemeral=True)
+    return
 
 
 @tree.command(description="a simple echo as a test")
