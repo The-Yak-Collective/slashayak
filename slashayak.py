@@ -75,6 +75,8 @@ async def promptrecall(interaction: discord.Interaction):
         rows=db_c.execute('select contents from prompts where chan=? order by  promptid desc',(interaction.channel_id,)).fetchone()
     except:
         rows=["could not obtain prompt"]
+    if not rows:
+        rows=["are you sure you created a prompt?"]
     await interaction.response.send_message("the prompt:\n"+rows[0], ephemeral=True)
     return
 
@@ -84,6 +86,8 @@ async def promptshow(interaction: discord.Interaction):
         rows=db_c.execute('select contents from prompts where chan=? order by promptid desc',(interaction.channel_id,)).fetchone()
     except:
         rows=["could not obtain prompt"]
+    if not rows:
+        rows=["are you sure you created a prompt?"]
     await splitsend(interaction.channel,rows[0],False)
     await interaction.response.send_message("done", ephemeral=True)
     return
