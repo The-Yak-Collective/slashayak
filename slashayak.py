@@ -103,7 +103,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 async def on_ready(): 
     tree.copy_global_to(guild=client.guilds[0])
     m= await tree.sync(guild=client.guilds[0])
-    tree.clear_commands()
+    tree.clear_commands(None)
     m= await tree.sync()
     print([x.name for x in m])
     checkon_database()
