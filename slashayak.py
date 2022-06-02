@@ -60,7 +60,7 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
 
     await interaction.response.send_message("hope you got the output you wanted",ephemeral=True)
 
-@tree.command(description="set a prompt for ongoing discussions")
+@tree.command(description="(soon obsolete) set a prompt for ongoing discussions")
 @app_commands.describe(theprompt='text of prompt')
 async def promptset(interaction: discord.Interaction, theprompt: str):
     conts=theprompt
@@ -69,7 +69,7 @@ async def promptset(interaction: discord.Interaction, theprompt: str):
     await interaction.response.send_message("hope you like your prompt! \nuse /promptset again to change it, /promptshow to show it to all and /promptrecall to show it only to yourself", ephemeral=True)
     return
 
-@tree.command( description="private reminder of the current prompt of this for ongoing discussions")
+@tree.command( description="(soon obsolete) private reminder of the current prompt of this for ongoing discussions")
 async def promptrecall(interaction: discord.Interaction):
     try:
         rows=db_c.execute('select contents from prompts where chan=? order by  promptid desc',(interaction.channel_id,)).fetchone()
@@ -80,7 +80,7 @@ async def promptrecall(interaction: discord.Interaction):
     await interaction.response.send_message("the prompt:\n"+rows[0], ephemeral=True)
     return
 
-@tree.command( description="show the current prompt of this for ongoing discussions")
+@tree.command( description="(soon obsolete) show the current prompt of this for ongoing discussions")
 async def promptshow(interaction: discord.Interaction):
     try:
         rows=db_c.execute('select contents from prompts where chan=? order by promptid desc',(interaction.channel_id,)).fetchone()
@@ -102,8 +102,9 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
     tree.copy_global_to(guild=client.guilds[0])
-    m= await tree.sync()
     m= await tree.sync(guild=client.guilds[0])
+    tree.clear_commands()
+    m= await tree.sync()
     print([x.name for x in m])
     checkon_database()
     print("slashayak is up!")
