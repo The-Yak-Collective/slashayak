@@ -118,11 +118,11 @@ async def slashapulse(interaction: discord.Interaction, threadid: str):
     return
 
 async def chan(i):
-    th=client.guilds[0].get_channel_or_thread(int(threadid))
+    th=client.guilds[0].get_channel_or_thread(int(i))
     if th==None:
-        th=client.guilds[0].get_thread(int(threadid))
+        th=client.guilds[0].get_thread(int(i))
         if th==None:
-            th=await client.guilds[0].fetch_channel(int(threadid))
+            th=await client.guilds[0].fetch_channel(int(i))
     return th
     
 @tree.command(description="pulse a thread every 11 hours")
