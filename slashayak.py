@@ -101,8 +101,17 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 @tree.command(description="pulse a thread - will it come back to life?")
 @app_commands.describe(threadid='ID of thread we want to pulse')
 async def slashapulse(interaction: discord.Interaction, threadid: str):
-    th=client.guilds[0].get_channel_or_thread(int(threadid))
-    await th.send('staying alive', delete_after=10)
+    try:
+        th=client.guilds[0].get_channel_or_thread(int(threadid))
+        await th.send('staying alive1', delete_after=10)
+    except:
+        try:
+            th=client.guilds[0].get_thread(int(threadid))
+            await th.send('staying alive2', delete_after=10)
+        except:
+            th=client.guilds[0].fetch_channel(int(threadid))
+            await th.send('staying alive3', delete_after=10)
+
     return
 
 @client.event #needed since it takes time to connect to discord
