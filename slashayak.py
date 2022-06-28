@@ -35,7 +35,13 @@ async def pulseall():
     pulseus=db_c.execute('select threadid from pulses').fetchall()
     print('will now pulse ',pulseus)
     for i in pulseus:
-        await pulse(chan(i[0]))
+        thechan=await chan(i[0])
+        isachan=isinstance(thechan,discord.channel.TextChannel)
+        if isachan:
+            for i in thechan.threads
+                await pulse(i)
+        else:
+            await pulse(thechan)
 
 @tree.command(description= "unfurl single messages in and from threads as well as regular channels") # at this time only single link only, sorry. later to add a whole thread, i guess
 @app_commands.describe(linktounfurl='the link to unfurl')
