@@ -109,7 +109,7 @@ async def slashapulse(interaction: discord.Interaction, threadid: str):
             th=client.guilds[0].get_thread(int(threadid))
             await th.send('staying alive2', delete_after=10)
         except:
-            th=client.guilds[0].fetch_channel(int(threadid))
+            th=await client.guilds[0].fetch_channel(int(threadid))
             await th.send('staying alive3', delete_after=10)
 
     return
