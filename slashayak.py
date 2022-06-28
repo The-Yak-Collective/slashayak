@@ -38,7 +38,7 @@ async def pulseall():
         thechan=await chan(i[0])
         isachan=isinstance(thechan,discord.channel.TextChannel)
         if isachan:
-            for i in thechan.threads
+            for i in thechan.threads:
                 await pulse(i)
         else:
             await pulse(thechan)
