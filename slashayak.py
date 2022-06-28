@@ -30,7 +30,7 @@ conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be 
 
 db_c = conn.cursor()
 
-@tasks.loop(minutes=1) #60*11)
+@tasks.loop(minutes=60*11)
 async def pulseall():
     pulseus=db_c.execute('select threadid from pulses').fetchall()
     print('will now pulse ',pulseus)
