@@ -35,7 +35,7 @@ async def pulseall():
     pulseus=db_c.execute('select threadid from pulses').fetchall()
     print('will now pulse ',pulseus)
     for i in pulseus:
-        pulse(chan(i[0]))
+        await pulse(chan(i[0]))
 
 @tree.command(description= "unfurl single messages in and from threads as well as regular channels") # at this time only single link only, sorry. later to add a whole thread, i guess
 @app_commands.describe(linktounfurl='the link to unfurl')
@@ -126,6 +126,7 @@ async def chan(i):
     Choice(name='off', value=0),])
 async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actually every 11 hours
     thid=interaction.channel_id
+    print(type(interaction.channel))
     print ('pulse a day',thid,onoff.value)
     if(onoff.value==1):
         await pulse(interaction.channel)
