@@ -98,6 +98,12 @@ async def promptshow(interaction: discord.Interaction):
 async def slashatest(interaction: discord.Interaction, echome: str):
     await interaction.response.send_message(f'{echome=}', ephemeral=True)
 
+@tree.command(description="pulse a thread - will it come back to life?")
+@app_commands.describe(threadid='ID of thread we want to pulse')
+async def slashatest(interaction: discord.Interaction, threadid: str):
+    th=client.guilds[0].get_channel_or_thread(int(threadid))
+    await th.send('staying alive', delete_after=10)
+    return
 
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
