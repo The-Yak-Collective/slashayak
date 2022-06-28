@@ -30,7 +30,7 @@ conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be 
 
 db_c = conn.cursor()
 
-@tasks.loop(minutes=60*11)
+@tasks.loop(minutes=1) #60*11)
 async def pulseall():
     pulseus=db_c.execute('select threadid from pulses').fetchall()
     print('will now pulse ',pulseus)
@@ -124,14 +124,13 @@ async def chan(i):
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
     Choice(name='off', value=0),])
-
 async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actually every 11 hours
     thid=interaction.channel_id
-    print ('pulse a day',thid,reaction.value)
-    if(reaction.value==1):
+    print ('pulse a day',thid,onoff.value)
+    if(onoff.value==1):
         await pulse(interaction.channel)
         db_c.execute('''insert into pulses values (NULL,?)''',(thid,))
-    if(reaction.value==0):
+    if(onoff.value==0):
         db_c.execute('''delete from pulses where threadid=? ''',(thid,))
     conn.commit()
 
