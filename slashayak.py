@@ -22,7 +22,7 @@ from discord_slashayak import * #including client and tree
 
 HOME_DIR="/home/yak/robot/slashayak/"
 USER_DIR="/home/yak/"
-
+pulsebysend=True
 load_dotenv(USER_DIR+'.env')
 
 conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be global. 
@@ -143,9 +143,30 @@ async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actu
 
     return
 
+@tree.command(description="pulse by send or by join - an experiment)
+@app_commands.describe(onoff='to pulse by send (on) or otherwise (off)')
+@app_commands.choices(onoff=[
+    Choice(name='on', value=1),
+    Choice(name='off', value=0),])
+async def ulsebysend(interaction: discord.Interaction, onoff: Choice[int]): 
+    global pulsebysend
+    if(onoff.value==1):
+        pulsebysend=True
+    else:
+        pulsebysend=False
+    print("pulse by is ", pulsebysend)
+    return 0
+    
 async def pulse(th):
-    await th.send('staying alive', delete_after=10)
-
+    global pulsebysend
+    if pulsebysend:
+        await th.send('staying alive', delete_after=10)
+    else:
+        await th.join()
+        time.sleep(2)
+        await th.leave() #will this keep thread alive AND not mark it? do i also need to delete the "joined" message"?
+    return
+        
 
 @client.event #needed since it takes time to connect to discord
 async def on_ready(): 
