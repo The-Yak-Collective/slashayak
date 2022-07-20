@@ -117,7 +117,7 @@ async def slashatest(interaction: discord.Interaction, echome: str):
     Choice(name='join', value=0),])
 async def slashapulse(interaction: discord.Interaction, threadid: str, sendorjoin: Choice[int]):
     global pulsebysend
-    th=await chan(i)
+    th=await chan(int(threadid))
     saveme=pulsebysend
     if sendorjoin.value==1:
         pulsebysend=True
