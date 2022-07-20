@@ -112,9 +112,19 @@ async def slashatest(interaction: discord.Interaction, echome: str):
 
 @tree.command(description="pulse a thread - will it come back to life? (yes!)")
 @app_commands.describe(threadid='ID of thread we want to pulse')
-async def slashapulse(interaction: discord.Interaction, threadid: str):
+@app_commands.choices(sendorjoin=[
+    Choice(name='send', value=1),
+    Choice(name='join', value=0),])
+async def slashapulse(interaction: discord.Interaction, threadid: str, sendorjoin: Choice[int]):
+    global pulsebysend
     th=await chan(i)
+    saveme=pulsebysend
+    if sendorjoin.value==1:
+        pulsebysend=True
+    else:
+        pulsebysend=False
     await pulse(th)
+    pulsebysend=saveme
     return
 
 async def chan(i):
@@ -148,7 +158,7 @@ async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actu
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
     Choice(name='off', value=0),])
-async def ulsebysend(interaction: discord.Interaction, onoff: Choice[int]): 
+async def pulsebysend(interaction: discord.Interaction, onoff: Choice[int]): 
     global pulsebysend
     if(onoff.value==1):
         pulsebysend=True
