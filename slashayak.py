@@ -143,7 +143,7 @@ async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actu
 
     return
 
-@tree.command(description="pulse by send or by join - an experiment)
+@tree.command(description="pulse by send or by join - an experiment")
 @app_commands.describe(onoff='to pulse by send (on) or otherwise (off)')
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
