@@ -22,7 +22,7 @@ from discord_slashayak import * #including client and tree
 
 HOME_DIR="/home/yak/robot/slashayak/"
 USER_DIR="/home/yak/"
-pulsebysend=True
+pulsebysend_flag=False #lets start with real delete, and not ephermal. True
 load_dotenv(USER_DIR+'.env')
 
 conn=sqlite3.connect(HOME_DIR+'slashayakdatabase.db') #the connection should be global. 
@@ -116,15 +116,15 @@ async def slashatest(interaction: discord.Interaction, echome: str):
     Choice(name='send', value=1),
     Choice(name='join', value=0),])
 async def slashapulse(interaction: discord.Interaction, threadid: str, sendorjoin: Choice[int]):
-    global pulsebysend
+    global pulsebysend_flag
     th=await chan(int(threadid))
-    saveme=pulsebysend
+    saveme=pulsebysend_flag
     if sendorjoin.value==1:
-        pulsebysend=True
+        pulsebysend_flag=True
     else:
-        pulsebysend=False
+        pulsebysend_flag=False
     await pulse(th)
-    pulsebysend=saveme
+    pulsebysend_flag=saveme
     return
 
 async def chan(i):
@@ -153,28 +153,34 @@ async def pulseaday(interaction: discord.Interaction, onoff: Choice[int]): #actu
 
     return
 
-@tree.command(description="pulse by send or by join - an experiment")
+@tree.command(description="pulse by send or by join (or by join/leave) - an experiment")
 @app_commands.describe(onoff='to pulse by send (on) or otherwise (off)')
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
     Choice(name='off', value=0),])
 async def pulsebysend(interaction: discord.Interaction, onoff: Choice[int]): 
-    global pulsebysend
+    global pulsebysend_flag
     if(onoff.value==1):
-        pulsebysend=True
+        pulsebysend_flag=True
     else:
-        pulsebysend=False
-    print("pulse by is ", pulsebysend)
+        pulsebysend_flag=False
+    print("pulse by is ", pulsebysend_flag)
     return 0
     
 async def pulse(th):
-    global pulsebysend
-    if pulsebysend:
-        await th.send('staying alive', delete_after=10)
-    else:
-        await th.join()
-        time.sleep(2)
-        await th.leave() #will this keep thread alive AND not mark it? do i also need to delete the "joined" message"?
+    global pulsebysend_flag
+    try:
+        if pulsebysend_flag:
+            await th.send('staying alive', delete_after=10)
+        else:
+            #await th.join()
+            #time.sleep(2)
+            #await th.leave() #will this keep thread alive AND not mark it? do i also need to delete the "joined" message"? apparently NOT. and there is no "joined" message. alternatiev question - if we post a message and then delete it, is that better?
+            m = await th.send("a message to keep thread alive")
+            time.sleep(2)
+            await m.delete()
+    except:
+        print ("maybe thread does not exist any more?")
     return
         
 
