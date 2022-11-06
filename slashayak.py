@@ -33,7 +33,7 @@ db_c = conn.cursor()
 @tasks.loop(minutes=60*11)
 async def pulseall():
     pulseus=db_c.execute('select threadid from pulses').fetchall()
-    print('will now pulse ',pulseus)
+    print("---\n[" + datetime.datetime.now().astimezone().replace(microsecond=0).isoformat() + "]\nwill now pulse ",pulseus)
     for i in pulseus:
         thechan=await chan(i[0])
         isachan=isinstance(thechan,discord.channel.TextChannel)
@@ -54,7 +54,7 @@ async def tfurl(interaction: discord.Interaction, linktounfurl: str):
     try:
         #print(temp_l,url[1],':',durl2m(url[1]))
         m,chan,c=await durl2m(url) #fails on threads because of "chan". but maybe just take the message id and extract channel information from that?
-        print("afterdurl")
+        print("---\n[" + datetime.datetime.now().astimezone().replace(microsecond=0).isoformat() + "]\nafterdurl")
         txt=m.content
         print(m.channel)
         print(m.channel.name)
@@ -164,7 +164,7 @@ async def pulsebysend(interaction: discord.Interaction, onoff: Choice[int]):
         pulsebysend_flag=True
     else:
         pulsebysend_flag=False
-    print("pulse by is ", pulsebysend_flag)
+    print("---\n[" + datetime.datetime.now().astimezone().replace(microsecond=0).isoformat() + "]\npulse by is ", pulsebysend_flag)
     return 0
     
 async def pulse(th):
@@ -192,7 +192,7 @@ async def on_ready():
     m= await tree.sync()
     print([x.name for x in m])
     checkon_database()
-    print("slashayak is up!")
+    print("---\n[" + datetime.datetime.now().astimezone().replace(microsecond=0).isoformat() + "]\nslashayak is up!")
     print([x.name for x in tree.get_commands()])
     pulseall.start()
     return

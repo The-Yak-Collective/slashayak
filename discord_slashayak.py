@@ -13,4 +13,4 @@ tree = app_commands.CommandTree(client)
 
 #maybe not bot but slash?
 #bot = commands.Bot(command_prefix='$$', intents=intents)
-#print('bot:',bot)
+#print("bot:",bot)
