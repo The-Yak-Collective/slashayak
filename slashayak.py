@@ -5,6 +5,7 @@
 
 from discord.app_commands import Choice
 from discord.ext import tasks, commands
+from typing import Optional
 import discord
 import asyncio
 import os
@@ -42,6 +43,34 @@ async def pulseall():
                 await pulse(i)
         else:
             await pulse(thechan)
+
+@tree.command(description= "add a '🙊' at start of your nickname to indicate you are in listen mode. will automatically be deleted after a fixed time. you can also set a timer or choose a different UNICODE letter") 
+@app_commands.describe(onoff='on means add monkey')
+@app_commands.describe(timer='how many minutes till it goes away')
+@app_commands.describe(monkeychar='which unicode to use instead of saynoevil monkey')
+@app_commands.choices(onoff=[
+    Choice(name='on', value=1),
+    Choice(name='off', value=2),
+    ,])
+async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer: Optional[int],monkeychar:Optional[str]):
+
+    message=interaction.message #there are actually cooler tools around interactions. for a later time...
+    channel=interaction.channel
+    if not timer:
+        timer=60 #minutes
+    if not monkeychar:
+        monkeychar='🙊'
+    monkeychar=monkeychar[0]
+
+    try:
+        await splitsend(channel,"i'm a monkey's uncle",False)
+    except:
+        await channel.send("some bug.")
+        return
+
+    await interaction.response.send_message("hope you like your new look",ephemeral=True)
+
+
 
 @tree.command(description= "unfurl single messages in and from threads as well as regular channels") # at this time only single link only, sorry. later to add a whole thread, i guess
 @app_commands.describe(linktounfurl='the link to unfurl')
