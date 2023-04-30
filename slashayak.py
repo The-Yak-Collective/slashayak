@@ -50,8 +50,7 @@ async def pulseall():
 @app_commands.describe(monkeychar='which unicode to use instead of saynoevil monkey')
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
-    Choice(name='off', value=2),
-    ,])
+    Choice(name='off', value=2),])
 async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer: Optional[int],monkeychar:Optional[str]):
 
     message=interaction.message #there are actually cooler tools around interactions. for a later time...
