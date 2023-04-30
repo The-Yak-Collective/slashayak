@@ -44,7 +44,7 @@ async def pulseall():
         else:
             await pulse(thechan)
 
-@tree.command(description= "add a '🙊' at start of your nickname to indicate you are in listen mode. will automatically be deleted after a fixed time. you can also set a timer or choose a different UNICODE letter") 
+@tree.command(description= "add a '🙊' at start of your nickname to indicate you are in listen mode") 
 @app_commands.describe(onoff='on means add monkey')
 @app_commands.describe(timer='how many minutes till it goes away')
 @app_commands.describe(monkeychar='which unicode to use instead of saynoevil monkey')
