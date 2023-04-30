@@ -61,6 +61,21 @@ async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer
         monkeychar='🙊'
     monkeychar=monkeychar[0]
 
+    uncle=interaction.user
+    dispname=uncle.display_name
+    if onoff.value==1:
+        dispname=monkeychar+dispname
+        await uncle.edit(nick=dispname)
+        #add a monkey if we can (not on list)
+        #and if we added, add a record to DB
+#record includes username, emoji added and absolute time to remove emoji
+    elif onoff.value==2:
+        if dispname[0]==monkeychar:
+            dispname=dispname[1:]
+            await uncle.edit(nick=dispname)
+        #remove a monkey if we can (on list)
+        #and if we removed, try to remove  a record in DB 
+
     try:
         await splitsend(channel,"i'm a monkey's uncle"+str(onoff)+str(timer)+monkeychar,False)
     except:
