@@ -62,7 +62,7 @@ async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer
     monkeychar=monkeychar[0]
 
     try:
-        await splitsend(channel,"i'm a monkey's uncle",False)
+        await splitsend(channel,"i'm a monkey's uncle"+str(onoff)+str(timer)+monkeychar,False)
     except:
         await channel.send("some bug.")
         return
