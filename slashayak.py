@@ -69,7 +69,7 @@ async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer
             await uncle.edit(nick=dispname)
         except Exception as e:
             print(e)
-            channel.send(str(e))
+            await channel.send(str(e))
         #add a monkey if we can (not on list)
         #and if we added, add a record to DB
 #record includes username, emoji added and absolute time to remove emoji
