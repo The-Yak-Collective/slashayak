@@ -44,10 +44,10 @@ async def pulseall():
         else:
             await pulse(thechan)
 
-@tree.command(description= "add a '🙊' at start of your nickname to indicate you are in listen mode") 
+@tree.command(description= "add a 🙊 at start of your nickname to indicate you are in listen mode") 
 @app_commands.describe(onoff='on means add monkey')
-@app_commands.describe(timer='how many minutes till it goes away')
-@app_commands.describe(monkeychar='which unicode to use instead of saynoevil monkey')
+#@app_commands.describe(timer='how many minutes till it goes away')
+@app_commands.describe(monkeychar='which unicode to use instead of 🙊')
 @app_commands.choices(onoff=[
     Choice(name='on', value=1),
     Choice(name='off', value=2),])
@@ -80,11 +80,11 @@ async def showmymode(interaction: discord.Interaction, onoff: Choice[int], timer
         #remove a monkey if we can (on list)
         #and if we removed, try to remove  a record in DB 
 
-    try:
-        await splitsend(channel,"i'm a monkey's uncle"+str(onoff)+str(timer)+monkeychar,False)
-    except:
-        await channel.send("some bug.")
-        return
+    #try:
+    #    await splitsend(channel,"i'm a monkey's uncle"+str(onoff)+str(timer)+monkeychar,False)
+    #except:
+    #    await channel.send("some bug.")
+    #    return
 
     await interaction.response.send_message("hope you like your new look",ephemeral=True)
 
